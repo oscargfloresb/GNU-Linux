@@ -1,0 +1,11 @@
+sudo modprobe -r kvm_intel
+sudo modprobe -r kvm
+
+sudo rm -rf files/ iso/ isoroot/ && sudo rm -rf rootfs && sudo rm -rf /tmp/* && clear && sudo rm -rf f *.iso && mv /home/oky/Downloads/oky.sh /home/oky/ && chmod +x oky.sh && sudo ./oky.sh
+
+qemu-system-x86_64 -m 2048 -smp 2 -cdrom OKY-1.0.0.iso -serial stdio
+
+qemu-system-x86_64 -m 2048 -smp 2 -cdrom OKY-1.0.0.iso -serial stdio -netdev user,id=net0 -device e1000,netdev=net0,id=net0
+
+qemu-system-x86_64 -m 2048 -smp 2 -cdrom OKY-1.0.0.iso -serial stdio \
+  -netdev bridge,id=net0,br=br0 -device e1000,netdev=net0
