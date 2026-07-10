@@ -10,7 +10,7 @@ qemu-system-x86_64 -m 2048 -smp 2 -cdrom OKY-1.0.0.iso -serial stdio -netdev use
 qemu-system-x86_64 -m 2048 -smp 2 -cdrom OKY-1.0.0.iso -serial stdio \
   -netdev bridge,id=net0,br=br0 -device e1000,netdev=net0
 
-sudo iso/ isoroot/ && sudo rm -rf rootfs && sudo rm -rf /tmp/* && clear && sudo rm -rf f *.iso && mv /home/oky/Downloads/oky.sh /home/oky/ && chmod +x oky.sh && sudo ./oky.sh
+sudo rm -rf iso/ isoroot/ && sudo rm -rf rootfs && sudo rm -rf /tmp/* && clear && sudo rm -rf f *.iso && mv /home/oky/Downloads/oky.sh /home/oky/ && chmod +x oky.sh && sudo ./oky.sh
 
 find /home/oky/files -mindepth 1 \
   ! \( \
