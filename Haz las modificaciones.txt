@@ -9,3 +9,16 @@ qemu-system-x86_64 -m 2048 -smp 2 -cdrom OKY-1.0.0.iso -serial stdio -netdev use
 
 qemu-system-x86_64 -m 2048 -smp 2 -cdrom OKY-1.0.0.iso -serial stdio \
   -netdev bridge,id=net0,br=br0 -device e1000,netdev=net0
+
+find /home/oky/files -mindepth 1 \
+  ! \( \
+    -name "*.zip" -o \
+    -name "*.7z" -o \
+    -name "*.rar" -o \
+    -name "*.tar" -o \
+    -name "*.tar.gz" -o \
+    -name "*.tgz" -o \
+    -name "*.gz" -o \
+    -name "*.bz2" -o \
+    -name "*.xz" \
+  \) -exec rm -rf {} +
