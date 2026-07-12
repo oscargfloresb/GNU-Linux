@@ -2,10 +2,10 @@ sudo modprobe -r kvm_intel
 sudo modprobe -r kvm
 
 
-clear && sudo rm -rf *.iso /tmp/* rootfs/ files/ && mv /home/oky/Downloads/oky.sh /home/oky/ && chmod +x oky.sh && sudo ./oky.sh
+clear && sudo rm -rf *.iso /tmp/* rootfs/ isoroot/ files/ && mv /home/oky/Downloads/oky.sh /home/oky/ && chmod +x oky.sh && sudo ./oky.sh
 
+clear && sudo rm -rf *.iso /tmp/* rootfs/ isoroot/ && mv /home/oky/Downloads/oky.sh /home/oky/ && chmod +x oky.sh && sudo ./oky.sh
 
-clear && sudo rm -rf *.iso /tmp/* rootfs/ && mv /home/oky/Downloads/oky.sh /home/oky/ && chmod +x oky.sh && sudo ./oky.sh
 
 
 qemu-system-x86_64 -m 2048 -smp 2 -cdrom OKY-1.0.0.iso -serial stdio
