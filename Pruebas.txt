@@ -1,0 +1,32 @@
+sudo modprobe -r kvm_intel
+sudo modprobe -r kvm
+
+x86_64-pc-linux-gnu
+
+P: Entrá al chroot (sudo sh /home/oky/files/oky-enter-chroot.sh) y corré: nm -D /usr/lib/libreadline.so | grep rl_completion_rewrite_hook
+
+sudo rm -rf /home/oky/files/glibc-sysroot/sources/gmp-ch8
+
+
+clear && sudo rm -rf *.iso /tmp/* rootfs/ isoroot/ files/ && mv /home/oky/Downloads/oky.sh /home/oky/ && sudo sh oky.sh
+
+clear && sudo rm -rf *.iso /tmp/* rootfs/ isoroot/ && mv /home/oky/Downloads/oky.sh /home/oky/ && sudo sh oky.sh
+
+clear && sudo rm -rf *.iso && mv /home/oky/Downloads/oky.sh /home/oky/ && sudo sh /home/oky/oky.sh
+
+clear && sudo rm -rf *.iso build.log && mv /home/oky/Downloads/oky.sh /home/oky/ && sudo sh oky.sh 2>&1 | tee build.log
+
+
+uname -a
+ip a
+cat /etc/os-release
+df -h
+lsblk -f
+fdisk -l
+systemctl status systemd-remount-fs dbus systemd-logind systemd-udevd cron sshd networking
+systemctl --failed
+find / -xdev -name "libmount*" 2>/dev/null
+journalctl -b -p 3
+cat /etc/passwd
+journalctl -b -u dbus --no-pager | grep -i unknown
+journalctl -b -u dbus --no-pager | grep "supplementary groups"
