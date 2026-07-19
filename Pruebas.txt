@@ -40,3 +40,29 @@ ldd /usr/lib/security/pam_systemd.so
 
 Esto "Started D-Bus System Message Bus" sige demorando.
 
+
+---
+Lo mejor es que esto se prueba en un solo boot, sin rebuild:
+Test A/B (hacelo primero):
+
+En el menú de GRUB de la ISO, resaltá la entrada live normal y apretá e para editarla.
+Al final de la línea linux /boot/vmlinuz-...  agregá: systemd.mask=dbus.socket
+Booteá con Ctrl-X (o F10).
+
+Si el freeze desaparece → causa confirmada, y te corrijo el script para que el socket no exista más (y de paso documento el porqué). Si algún servicio falla por dependencia al socket enmascarado, no importa — es un boot de diagnóstico. Si el freeze persiste, pasá al plan de captura en vivo, que ahora ya sabemos que funciona:
+Captura durante el freeze (entrada "live + debug"):
+
+Apenas arranca el kernel, saltá a tty9 (Ctrl-derecho + F9) y dejá corriendo while true; do date +%T; sleep 1; done.
+Cuando la consola principal muestre Started D-Bus System Message Bus y se congele, volvé a tty9 y mirá: ¿el reloj siguió avanzando? Si tty9 también está muerta → freeze de VM completa → VBox.log del host y probar QEMU. Si responde:
+Durante el freeze, corré (2-3 veces, con unos segundos entre medio):
+
+   cat /proc/1/wchan; echo; cat /proc/1/stack
+   ps -eo pid,state,wchan:30,args | head -30
+   systemctl list-jobs
+Dato clave: si systemctl list-jobs se cuelga, eso confirma que PID1 mismo está bloqueado (no puede atender su API), y /proc/1/stack nos dice en qué syscall exacto.
+Después del boot (en cualquiera de los dos escenarios), pegame la salida de:
+cat /proc/cmdline
+journalctl -k -b | grep -iE 'random|crng|rdrand' 
+journalctl -b -o short-monotonic | awk '{t=$1+0} t>80 && t<100' | head -30
+systemd-analyze critical-chain
+La segunda repite el chequeo de entropía contra el journal completo (tu dmesg vacío casi seguro fue el ring buffer rotado por el flood del modo debug), y la tercera muestra qué es lo último que se logueó antes del silencio y lo primero después — las dos puntas exactas del agujero de 90 segundos.
