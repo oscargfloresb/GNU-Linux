@@ -30,3 +30,13 @@ journalctl -b -p 3
 cat /etc/passwd
 journalctl -b -u dbus --no-pager | grep -i unknown
 journalctl -b -u dbus --no-pager | grep "supplementary groups"
+
+systemctl status dbus.socket dbus.service systemd-resolved systemd-networkd systemd-logind --no-pager
+
+cat /etc/systemd/system/sshd-keygen.service
+journalctl -b --no-pager | grep -A2 "pam_systemd"
+ldd /usr/lib/security/pam_systemd.so
+
+
+Esto "Started D-Bus System Message Bus" sige demorando.
+
