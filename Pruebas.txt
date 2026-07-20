@@ -1,11 +1,7 @@
 sudo modprobe -r kvm_intel
 sudo modprobe -r kvm
 
-x86_64-pc-linux-gnu
-
-P: Entrá al chroot (sudo sh /home/oky/files/oky-enter-chroot.sh) y corré: nm -D /usr/lib/libreadline.so | grep rl_completion_rewrite_hook
-
-sudo rm -rf /home/oky/files/glibc-sysroot/sources/gmp-ch8
+/usr/x86_64-oky-linux-gnu + /usr/x86_64-pc-linux-gnu (30M)
 
 
 clear && sudo rm -rf *.iso /tmp/* rootfs/ isoroot/ files/ && mv /home/oky/Downloads/oky.sh /home/oky/ && sudo sh oky.sh
@@ -17,29 +13,31 @@ clear && sudo rm -rf *.iso && mv /home/oky/Downloads/oky.sh /home/oky/ && sudo s
 clear && sudo rm -rf *.iso build.log && mv /home/oky/Downloads/oky.sh /home/oky/ && sudo sh oky.sh 2>&1 | tee build.log
 
 
+systemctl --failed
+systemctl status dbus systemd-remount-fs systemd-logind systemd-udevd cron sshd systemd-networkd systemd-resolved
+
+du -xsh /* 2>/dev/null | sort -h
+du -xsh /usr/* 2>/dev/null | sort -h | tail -8
+du -xsh /usr/lib/* 2>/dev/null | sort -h | tail -10
+
+journalctl -b -p 3
+journalctl -b --no-pager | grep -Ei -A2 'unknown|supplementary groups|pam_systemd'
+
+
+ldd /usr/lib/security/pam_systemd.so
+find / -xdev -name "libmount*" 2>/dev/nullcelar
+
 uname -a
 ip a
 cat /etc/os-release
-df -h
-lsblk -f
-fdisk -l
-systemctl status systemd-remount-fs dbus systemd-logind systemd-udevd cron sshd networking
-systemctl --failed
-find / -xdev -name "libmount*" 2>/dev/null
-journalctl -b -p 3
 cat /etc/passwd
-journalctl -b -u dbus --no-pager | grep -i unknown
-journalctl -b -u dbus --no-pager | grep "supplementary groups"
-
-systemctl status dbus.socket dbus.service systemd-resolved systemd-networkd systemd-logind --no-pager
-
 cat /etc/systemd/system/sshd-keygen.service
-journalctl -b --no-pager | grep -A2 "pam_systemd"
-ldd /usr/lib/security/pam_systemd.so
 
-
-Esto "Started D-Bus System Message Bus" sige demorando.
-
+du -xsh /usr/share/* 2>/dev/null | sort -h | tail -10
+du -xsh /usr/lib64/* 2>/dev/null | sort -h | tail -10
+du -ah /usr/bin 2>/dev/null | sort -h | tail -15
+grep -rl 'bin/perl\|bin/python' /etc /usr/sbin /usr/lib/systemd /usr/lib/udev 2>/dev/null | head
+ls -la /boot
 
 ---
 Lo mejor es que esto se prueba en un solo boot, sin rebuild:
