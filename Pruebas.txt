@@ -1,3 +1,5 @@
+/home/oky/rootfs/{etc,var,run,proc,sys,dev,tmp}
+
 sudo sh /home/oky/files/oky-enter-chroot.sh
 
 sudo modprobe -r kvm_intel
